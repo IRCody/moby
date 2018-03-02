@@ -117,3 +117,24 @@ func (m *mockmetadataclient) Region() (string, error) {
 	output := <-m.regionResult
 	return output.successResult, output.errorResult
 }
+
+func newClientSpy() *clientSpy {
+	return &clientSpy{}
+}
+
+type clientSpy struct {
+	createLogStreamCallCount int
+}
+
+func (m *clientSpy) CreateLogGroup(_ *cloudwatchlogs.CreateLogGroupInput) (*cloudwatchlogs.CreateLogGroupOutput, error) {
+	return nil, nil
+}
+
+func (m *clientSpy) CreateLogStream(_ *cloudwatchlogs.CreateLogStreamInput) (*cloudwatchlogs.CreateLogStreamOutput, error) {
+	m.createLogStreamCallCount++
+	return nil, nil
+}
+
+func (m *clientSpy) PutLogEvents(_ *cloudwatchlogs.PutLogEventsInput) (*cloudwatchlogs.PutLogEventsOutput, error) {
+	return nil, nil
+}
